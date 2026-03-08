@@ -1,6 +1,7 @@
 package entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Transaction {
@@ -71,7 +72,7 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
