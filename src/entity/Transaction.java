@@ -15,12 +15,12 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String transactionType, Integer fromAccountId, Integer toAccountId, BigDecimal amount, LocalDateTime createdAt) {
+    public Transaction(String transactionType, Integer fromAccountId, Integer toAccountId, BigDecimal amount) {
         this.transactionType = transactionType;
         this.fromAccountId = fromAccountId;
         this.toAccountId = toAccountId;
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Transaction(Integer transactionId, String transactionType, Integer fromAccountId, Integer toAccountId, BigDecimal amount, LocalDateTime createdAt) {

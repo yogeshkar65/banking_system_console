@@ -1,44 +1,45 @@
 package dao;
 
-import entity.Account;
+
 import entity.Transaction;
-import util.AccountMapper;
 import util.DBConnection;
 import util.TransactionMapper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDAO {
 
-    public boolean createTransaction(Transaction transaction) {
+    public boolean createTransaction(Connection conn,Transaction transaction) throws SQLException {
 
         String sql = "INSERT INTO transactions(transaction_type,from_account_id,to_account_id,amount,created_at) VALUES (?,?,?,?,?)";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql))
+        try (PreparedStatement ps = conn.prepareStatement(sql))
         {
 
             ps.setString(1,transaction.getTransactionType());
-            ps.setInt(2,transaction.getFromAccountId());
-            ps.setInt(3,transaction.getToAccountId());
+            if(transaction.getFromAccountId() == null){
+                ps.setNull(2, Types.BIGINT);
+            }
+            else {
+                ps.setInt(2, transaction.getFromAccountId());
+            }
+            if(transaction.getToAccountId() == null){
+                ps.setNull(3, Types.BIGINT);
+            }
+            else {
+                ps.setInt(3, transaction.getToAccountId());
+            }
+
             ps.setBigDecimal(4,transaction.getAmount());
             ps.setTimestamp(5,transaction.getCreatedAt());
 
-            int rowsInserted = ps.executeUpdate();
-            return rowsInserted > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return ps.executeUpdate() > 0;
         }
-        return false;
     }
     public List<Transaction> getTransactionByAccountId(int accountId){
-        String sql = "SELECT * FROM transactions WHERE from_account_id = ? OR to_account_id";
+        String sql = "SELECT * FROM transactions WHERE from_account_id = ? OR to_account_id = ?";
         List<Transaction> transactions = new ArrayList<>();
 
         try(Connection conn = DBConnection.getConnection();

@@ -72,19 +72,17 @@ public class AccountDAO {
         return accounts;
     }
 
-    public boolean updateBalance(int accountId, BigDecimal balance){
+    public boolean updateBalance(Connection conn, int accountId, BigDecimal balance) throws SQLException {
+
         String sql = "UPDATE accounts SET balance = ? WHERE account_id = ?";
 
-        try(Connection conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setBigDecimal(1, balance);
-            ps.setInt(2,accountId);
-            int rowsUpdated = ps.executeUpdate();
-            return rowsUpdated>0;
+            ps.setInt(2, accountId);
+
+            return ps.executeUpdate() > 0;
         }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        return false;
     }
+
 }
