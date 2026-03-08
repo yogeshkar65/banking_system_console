@@ -15,6 +15,16 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(String transactionType, Integer fromAccountId, Integer toAccountId, BigDecimal amount, LocalDateTime createdAt) {
+        this.transactionType = transactionType;
+        this.fromAccountId = fromAccountId;
+        this.toAccountId = toAccountId;
+        this.amount = amount;
+        this.createdAt = createdAt ;
+    }
+
+
+
     public Transaction(String transactionType, Integer fromAccountId, Integer toAccountId, BigDecimal amount) {
         this.transactionType = transactionType;
         this.fromAccountId = fromAccountId;
@@ -31,6 +41,7 @@ public class Transaction {
         this.amount = amount;
         this.createdAt = createdAt;
     }
+
 
     public Integer getTransactionId() {
         return transactionId;
@@ -72,11 +83,9 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Timestamp getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
-}
+

@@ -18,7 +18,11 @@ public class BankingService {
     private AccountDAO accountDAO;
     private TransactionDAO transactionDAO;
 
-
+    public BankingService() {
+        this.customerDAO = new CustomerDAO();
+        this.accountDAO = new AccountDAO();
+        this.transactionDAO = new TransactionDAO();
+    }
     public boolean createCustomer(Customer customer){
         return customerDAO.createCustomer(customer);
     }
@@ -47,8 +51,15 @@ public class BankingService {
         return accountDAO.getAccountsByCustomerId(customerId);
     }
 
-    public boolean createTransaction(Transaction transaction){
-        return transactionDAO.createTransaction(transaction);
+    public boolean createTransaction(Transaction transaction) {
+
+        try (Connection conn = DBConnection.getConnection()) {
+            return transactionDAO.createTransaction(conn, transaction);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Transaction> getTransactionsByAccountId(int accountId){

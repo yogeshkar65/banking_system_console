@@ -33,7 +33,7 @@ public class TransactionDAO {
             }
 
             ps.setBigDecimal(4,transaction.getAmount());
-            ps.setTimestamp(5,transaction.getCreatedAt());
+            ps.setTimestamp(5,Timestamp.valueOf(transaction.getCreatedAt()));
 
             return ps.executeUpdate() > 0;
         }

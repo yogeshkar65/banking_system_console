@@ -5,10 +5,7 @@ import util.AccountMapper;
 import util.DBConnection;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,7 @@ public class AccountDAO {
             ps.setString(3, account.getAccountType());
             ps.setBigDecimal(4, account.getBalance());
             ps.setString(5, account.getStatus());
-            ps.setTimestamp(6, account.getCreatedAt());
+            ps.setTimestamp(6, Timestamp.valueOf(account.getCreatedAt()));
 
             int rowsInserted = ps.executeUpdate();
             return rowsInserted > 0;
